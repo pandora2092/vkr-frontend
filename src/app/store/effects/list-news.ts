@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Observable, of, EMPTY } from 'rxjs';
-import { ListNewsActionTypes, GetAllNewsSuccessAction, GetAllNewsAction, GetAllNewsFailureAction, AddNewsAction, AddNewsSuccessAction} from '../actions/list-news';
+import { ListNewsActionTypes, GetAllNewsSuccessAction, GetAllNewsAction, GetAllNewsFailureAction, AddNewsAction, AddNewsSuccessAction, DeleteNewsByIdSuccessAction, DeleteNewsByIdAction, EditNewsByIdAction, EditNewsByIdSuccessAction, GetNewsByIdAction, GetNewsByIdSuccessAction} from '../actions/list-news';
 
 
 @Injectable()
@@ -51,5 +51,59 @@ export class NewsListEffects {
     })
   );
 
+
+  @Effect()
+  deleteNews$: Observable<Action> = this.actions$
+  .pipe(
+    ofType(ListNewsActionTypes.ActionDeleteNewsById),
+    switchMap((action: DeleteNewsByIdAction) => {
+      return this.apiService
+        .deteleFromTable(action.payload.id)
+        .pipe(
+          map((value: any) => {
+            return new DeleteNewsByIdSuccessAction();
+          }),
+          catchError((err) => {
+            return EMPTY;
+          })
+        );
+    })
+  );
+
+  @Effect()
+  editNews$: Observable<Action> = this.actions$
+  .pipe(
+    ofType(ListNewsActionTypes.ActionEditNewsById),
+    switchMap((action: EditNewsByIdAction) => {
+      return this.apiService
+        .editRow(action.payload.id, action.payload.name, action.payload.code, action.payload.manuscript, action.payload.info, action.payload.bibliography)
+        .pipe(
+          map((value: any) => {
+            return new EditNewsByIdSuccessAction();
+          }),
+          catchError((err) => {
+            return EMPTY;
+          })
+        );
+    })
+  );
+
+  @Effect()
+  getNewsById$: Observable<Action> = this.actions$
+  .pipe(
+    ofType(ListNewsActionTypes.ActionGetNewsById),
+    switchMap((action: GetNewsByIdAction) => {
+      return this.apiService
+        .getItemById(action.payload.id)
+        .pipe(
+          map((value: any) => {
+            return new GetNewsByIdSuccessAction(value[0]);
+          }),
+          catchError((err) => {
+            return EMPTY;
+          })
+        );
+    })
+  );
 
 }

@@ -6,6 +6,12 @@ export enum ListNewsActionTypes {
   ActionGetAllNewsFailure = 'ACTION_GET_ALL_NEWS_FAILURE',
   ActionAddNews = 'ACTION_ADD_NEWS',
   ActionAddNewsSuccess = 'ACTION_ADD_NEWS_SUCCUSS',
+  ActionDeleteNewsById = 'ACTION_DETELE_NEWS_BY_ID',
+  ActionDeleteNewsByIdSuccess = 'ACTION_DETELE_NEWS_BY_ID_SUCCESS',
+  ActionEditNewsById = 'ACTION_EDIT_NEWS_BY_ID',
+  ActionEditNewsByIdSuccess = 'ACTION_EDIT_NEWS_BY_ID_SUCCESS',
+  ActionGetNewsById = 'ACTION_GET_NEWS_BY_ID',
+  ActionGetNewsByIdSuccess = 'ACTION_GET_NEWS_BY_ID_SUCCESS',
 }
 
 export class GetAllNewsAction implements Action {
@@ -52,5 +58,59 @@ export class AddNewsSuccessAction implements Action {
 
   constructor( ) {
     this.payload = { };
+  }
+}
+
+export class DeleteNewsByIdAction implements Action {
+  readonly type = ListNewsActionTypes.ActionDeleteNewsById;
+  public payload: { id: any };
+
+  constructor( id: any ) {
+    this.payload = { id };
+  }
+}
+
+export class DeleteNewsByIdSuccessAction implements Action {
+  readonly type = ListNewsActionTypes.ActionDeleteNewsByIdSuccess;
+  public payload: {  };
+
+  constructor( ) {
+    this.payload = {  };
+  }
+}
+
+export class EditNewsByIdAction implements Action {
+  readonly type = ListNewsActionTypes.ActionEditNewsById;
+  public payload: { id: any, name: string, code: string, manuscript: string, info: string, bibliography: string};
+
+  constructor( id: any, name: string, code: string, manuscript: string, info: string, bibliography: string ) {
+    this.payload = { id, name, code, manuscript, info, bibliography };
+  }
+}
+
+export class EditNewsByIdSuccessAction implements Action {
+  readonly type = ListNewsActionTypes.ActionEditNewsByIdSuccess;
+  public payload: {  };
+
+  constructor( ) {
+    this.payload = {  };
+  }
+}
+
+export class GetNewsByIdAction implements Action {
+  readonly type = ListNewsActionTypes.ActionGetNewsById;
+  public payload: { id: any };
+
+  constructor( id: any ) {
+    this.payload = { id };
+  }
+}
+
+export class GetNewsByIdSuccessAction implements Action {
+  readonly type = ListNewsActionTypes.ActionGetNewsByIdSuccess;
+  public payload: {row: any};
+
+  constructor(row: any ) {
+    this.payload = {row};
   }
 }

@@ -12,6 +12,8 @@
     <td>{{item.manuscript}}</td>
     <td>{{item.info}}</td>
     <td>{{item.bibliography}}</td>
+    <td> <button (click)="deleteRow(item._id)">delete</button> </td>
+    <td> <button (click)="editRow(item._id)">edit</button> </td>
   </tr>
 
 </table>

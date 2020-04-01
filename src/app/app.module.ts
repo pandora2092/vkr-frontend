@@ -18,6 +18,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store/reducers';
 import { NewsListEffects } from './store/effects/list-news';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditComponent } from './components/edit/edit.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -25,10 +28,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SearchComponent,
     MenuComponent,
     ContactComponent,
-    AddComponent
+    AddComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     StoreModule.forRoot(reducers()),
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({
@@ -40,12 +45,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ]),
     MatInputModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     FormsModule,
+    MatDialogModule,
     MatFormFieldModule,
     AppRoutingModule
   ],
-  providers: [],
+  exports: [
+    EditComponent
+  ],
+  entryComponents: [
+    EditComponent
+  ],
+  providers: [
+    { provide: MatDialogRef, useValue: {}},
+	  { provide: MAT_DIALOG_DATA, useValue: []},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

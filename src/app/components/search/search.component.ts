@@ -1,8 +1,10 @@
-import { GetAllNewsAction } from './../../store/actions/list-news';
+import { GetAllNewsAction, DeleteNewsByIdAction, EditNewsByIdAction } from './../../store/actions/list-news';
 import { ApiService } from './../../services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../store/reducers/list-news';
+import { EditComponent } from '../edit/edit.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -15,7 +17,8 @@ export class SearchComponent implements OnInit {
   public table: any;
 
   constructor(
-    private store: Store<object>
+    private store: Store<object>,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -26,6 +29,18 @@ export class SearchComponent implements OnInit {
     );
 
     this.store.dispatch(new GetAllNewsAction());
+  }
+
+  public deleteRow(id: any) {
+    this.store.dispatch(new DeleteNewsByIdAction(id));
+  }
+
+  public editRow(id: any) {
+    this.dialog.open(EditComponent, {
+      panelClass: 'main',
+      data: { id },
+    });
+
   }
 
 }
